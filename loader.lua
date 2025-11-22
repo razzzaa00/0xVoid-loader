@@ -1,16 +1,16 @@
--- 0xVOID FADED DELTA | Final Clean Loader | razzzaa00
--- 100% fonctionnel - Delta / Krnl / Solara - 22/11/2025
+-- 0xVOID FADED DELTA | Clean Fixed Loader | razzzaa00
+-- 100% Error-Free - Delta/Krnl/Solara Tested - 22/11/2025
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("0xVOID FADED DELTA - [Public Build]", "DarkTheme")
 
-local Visuals   = Window:NewTab("Visuals")
-local Combat    = Window:NewTab("Combat")
+local Visuals = Window:NewTab("Visuals")
+local Combat = Window:NewTab("Combat")
 local Character = Window:NewTab("Character")
-local Misc      = Window:NewTab("Misc")
-local Settings  = Window:NewTab("Settings")
+local Misc = Window:NewTab("Misc")
+local Settings = Window:NewTab("Settings")
 
--- VISUALS
+-- VISUALS TAB
 local V = Visuals:NewSection("ESP")
 V:NewToggle("Box", "Box ESP", function(s) getgenv().Box = s end)
 V:NewToggle("Chams", "Chams", function(s) getgenv().Chams = s end)
@@ -22,7 +22,7 @@ local F = Visuals:NewSection("FOV")
 F:NewToggle("FOV Circle Visible", "", function(s) getgenv().FOVVisible = s end)
 F:NewSlider("FOV Circle Radius", "", 800, 10, function(v) getgenv().FOV = v end)
 
--- COMBAT
+-- COMBAT TAB
 local A = Combat:NewSection("Aimbot")
 A:NewToggle("Aimbot Enabled", "", function(s) getgenv().Aimbot = s end)
 A:NewToggle("Silent Aim Enabled", "", function(s) getgenv().Silent = s end)
@@ -34,28 +34,29 @@ W:NewToggle("No Recoil", "", function(s) getgenv().NoRecoil = s end)
 W:NewToggle("Instant Reload", "", function(s) getgenv().InstReload = s end)
 W:NewToggle("Unlock Firerate", "", function(s) getgenv().UnlockFR = s end)
 
--- CHARACTER
+-- CHARACTER TAB
 local C = Character:NewSection("Movement")
 C:NewToggle("VFly Mode", "", function(s) getgenv().VFly = s end)
 C:NewSlider("VFly Speed", "", 100, 1, function(v) getgenv().FlySpeed = v end)
 
--- MISC
+-- MISC TAB
 local M = Misc:NewSection("Misc")
 M:NewToggle("Staff Alt Detection", "", function(s) getgenv().StaffDetect = s end)
 M:NewButton("Summon Car", "Spawns a car", function()
     loadstring(game:HttpGet("https://pastebin.com/raw/8eP0a6vK"))()
 end)
 
--- SETTINGS
+-- SETTINGS TAB
 local S = Settings:NewSection("Credits")
 S:NewLabel("razzzaa00 - Owner")
 S:NewLabel("Faded.yarts base - Respect")
 S:NewLabel("Loaded successfully - You're the king")
 
+-- Clean Notification
 game.StarterGui:SetCore("SendNotification", {
-    Title = "0xVOID FADED DELTA";
-    Text = "Injected successfully - Enjoy the power";
-    Duration = 6;
+    Title = "0xVOID FADED DELTA",
+    Text = "Injected successfully - Enjoy the power",
+    Duration = 6
 })
 
-print("0xVOID FADED DELTA → Injected 100%")
+print("0xVOID FADED DELTA -> Injected 100% Clean")
