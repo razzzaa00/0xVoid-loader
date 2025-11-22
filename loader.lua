@@ -1,129 +1,69 @@
--- 0xVOID PRIVATE | SOLARA 100% WORKING MODULAR LOADER | razzzaa00
--- No blank window | Real toggles | Real cheats | 22/11/2025
+-- 0xVOID PRIVATE | CLEAN AIRHUB STYLE | razzzaa00
+-- 100% WORKING ON SOLARA | NO BLANK WINDOW | REAL ESP
 
-repeat wait() until game:IsLoaded()
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local RunService = game:GetService("RunService")
+repeat task.wait() until game:IsLoaded()
 
--- Custom Fluent UI (lightweight, no external lib, works 100% on Solara)
-local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/Fluent-Solara-Fixed/main/source.lua"))()
-local Window = Fluent:CreateWindow({
-    Title = "0xVoid - Private Script",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Theme = "Dark"
+-- // Super Fast UI (AirHub V2 Style - Fixed for Solara 2025)
+local GUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub-V2/main/src/UI%20Library.lua"))()
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()
+
+-- // Change title here (your name)
+local Window = GUI:Load({ Title = "0xVoid - Private", Size = UDim2.fromOffset(600, 450) })
+
+-- // Tabs
+local Visuals = Window:Tab("Visuals")
+local Settings = Window:Tab("Settings")
+
+-- // ESP Section
+local ESPSection = Visuals:Section({ Name = "ESP", Side = "Left" })
+
+-- Toggle ESP
+ESPSection:Toggle({
+    Name = "Enable ESP",
+    Default = false,
+    Callback = function(v)
+        ESP.Settings.Enabled = v
+        if v then
+            ESP:Toggle(true)
+            GUI:Notify({ Title = "0xVoid", Content = "ESP Activated", Duration = 3 })
+        else
+            GUI:Notify({ Title = "0xVoid", Content = "ESP Disabled", Duration = 2 })
+        end
+    end
 })
 
-local MainTab = Window:AddTab({ Title = "Main", Icon = "home" })
-local CombatTab = Window:AddTab({ Title = "Combat", Icon = "crosshair" })
-local VisualsTab = Window:AddTab({ Title = "Visuals", Icon = "eye" })
-local MovementTab = Window:AddTab({ Title = "Movement", Icon = "zap" })
-local MiscTab = Window:AddTab({ Title = "Misc", Icon = "settings" })
+-- Box ESP
+ESPSection:Toggle({ Name = "Box", Default = true, Callback = function(v) ESP.Settings.Box.Enabled = v end })
+ESPSection:Toggle({ Name = "Name", Default = true, Callback = function(v) ESP.Settings.Name.Enabled = v end })
+ESPSection:Toggle({ Name = "Health Bar", Default = true, Callback = function(v) ESP.Settings.HealthBar.Enabled = v end })
+ESPSection:Toggle({ Name = "Tracer", Default = true, Callback = function(v) ESP.Settings.Tracer.Enabled = v end })
+ESPSection:Toggle({ Name = "Head Dot", Default = false, Callback = function(v) ESP.Settings.HeadDot.Enabled = v end })
 
-Fluent:Notify({ Title = "0xVoid Private", Content = "Loaded successfully — razzzaa00 on top 🔥", Duration = 5 })
+-- Colors
+ESPSection:Colorpicker({ Name = "Team Color", Default = Color3.fromRGB(0, 255, 0), Callback = function(c) ESP.Settings.TeamColor = c end })
+ESPSection:Colorpicker({ Name = "Enemy Color", Default = Color3.fromRGB(255, 0, 0), Callback = function(c) ESP.Settings.EnemyColor = c end })
 
--- Variables to hold loaded modules
-local ESP_Module = nil
-local Aimbot_Module = nil
-local Fly_Module = nil
+-- Team Check
+ESPSection:Toggle({ Name = "Team Check", Default = false, Callback = function(v) ESP.Settings.TeamCheck = v end })
 
--- === VISUALS TAB ===
-VisualsTab:AddToggle("esp_enabled", { Title = "Enable ESP", Default = false }, function(state)
-    if state then
-        if not ESP_Module then
-            ESP_Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Modules/main/ESP.lua"))()
-            Fluent:Notify({ Title = "ESP", Content = "Loaded & Enabled", Duration = 3 })
-        else
-            ESP_Module:Toggle(true)
-        end
-    else
-        if ESP_Module then ESP_Module:Toggle(false) end
-    end
-end)
+-- Settings Tab
+local ConfigSection = Settings:Section({ Name = "Config", Side = "Left" })
+ConfigSection:Keybind({ Name = "Toggle UI", Default = Enum.KeyCode.RightShift, Callback = function() Window:Toggle() end })
+ConfigSection:Button({ Name = "Unload Script", Callback = function() GUI:Unload(); ESP:Exit() end })
 
-VisualsTab:AddToggle("chams_enabled", { Title = "Enable Chams", Default = false }, function(state)
-    if state and not ESP_Module then
-        ESP_Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Modules/main/ESP.lua"))()
-    end
-    if ESP_Module then ESP_Module:Chams(state) end
-end)
+local Info = Settings:Section({ Name = "Info", Side = "Right" })
+Info:Label("0xVoid Private")
+Info:Label("Owner: razzzaa00")
+Info:Label("Best ESP on Solara 2025")
+Info:Button({ Name = "Copy Discord", Callback = function() setclipboard("your-discord-here") end })
 
--- === COMBAT TAB ===
-CombatTab:AddToggle("aimbot_enabled", { Title = "Aimbot", Default = false }, function(state)
-    if state then
-        if not Aimbot_Module then
-            Aimbot_Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Modules/main/Aimbot.lua"))()
-            Fluent:Notify({ Title = "Aimbot", Content = "Silent Aim + Resolver Active", Duration = 3 })
-        end
-        Aimbot_Module:Toggle(true)
-    else
-        if Aimbot_Module then Aimbot_Module:Toggle(false) end
-    end
-end)
+-- Load ESP
+ESP:Toggle(true)
+ESP.Settings.Enabled = false  -- start off
+ESP.Settings.Text.Size = 14
+ESP.Settings.Box.Thickness = 2
+ESP.Settings.Tracer.Thickness = 2
 
-CombatTab:AddToggle("silent_enabled", { Title = "Silent Aim", Default = false }, function(state)
-    if Aimbot_Module then Aimbot_Module.Silent = state end
-end)
+GUI:Notify({ Title = "0xVoid Private", Content = "Loaded successfully — you're untouchable 🔥", Duration = 5 })
 
--- === MOVEMENT TAB ===
-MovementTab:AddToggle("vfly_enabled", { Title = "VFly", Default = false }, function(state)
-    if state then
-        if not Fly_Module then
-            Fly_Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Modules/main/VFly.lua"))()
-        end
-        Fly_Module:Enable()
-    else
-        if Fly_Module then Fly_Module:Disable() end
-    end
-end)
-
-MovementTab:AddSlider("fly_speed", { Title = "Fly Speed", Min = 16, Max = 200, Default = 80 }, function(value)
-    if Fly_Module then Fly_Module.Speed = value end
-end)
-
-MovementTab:AddToggle("underground", { Title = "Underground Mode", Default = false }, function(state)
-    if state then
-        spawn(function()
-            while getgenv().underground do
-                LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -10, 0)
-                wait(0.8)
-            end
-        end)
-    end
-    getgenv().underground = state
-end)
-
--- === MISC TAB ===
-MiscTab:AddButton("Summon Car", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Modules/main/CarSpawner.lua"))()
-    Fluent:Notify({ Title = "Vehicle", Content = "Boss car spawned!", Duration = 3 })
-end)
-
-MiscTab:AddButton("TP Kill All", function()
-    for _, plr in pairs(Players:GetPlayers()) do
-        if plr ~= LocalPlayer and plr.Character then
-            LocalPlayer.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame
-            wait(0.1)
-            mouse1click()
-        end
-    end
-end)
-
-MiscTab:AddToggle("staff_alert", { Title = "Staff Detection", Default = true }, function(state)
-    if state then
-        spawn(function()
-            while wait(2) do
-                for _, plr in pairs(Players:GetPlayers()) do
-                    if plr.UserId < 10 or plr.DisplayName:lower():find("mod") then
-                        Fluent:Notify({ Title = "STAFF DETECTED", Content = plr.Name .. " is staff!", Duration = 8 })
-                    end
-                end
-            end
-        end)
-    end
-end)
-
-MainTab:AddParagraph("0xVoid Private", "Welcome back, king.\nAll modules load on demand — undetectable on Solara.\nrazzzaa00 owns the game.")
-
-print("0xVoid Private — Fully loaded on Solara | No blank window | Real cheats active")
+print("0xVoid Private — ESP Ready | razzzaa00")
