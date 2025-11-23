@@ -1,33 +1,37 @@
--- 0xVOID EMPIRE | AIMBOT MODULE
-getgenv().SilentAim = false
+-- 0xVoid Aimbot | From Faded.yarts Source | razzzaa00
+getgenv().Aimbot_Enabled = getgenv().Aimbot_Enabled or false
 
-Combat:AddToggle("silent_aim", {Title = "Silent Aim", Default = false}, function(v)
-    getgenv().SilentAim = v
-end)
-
-Combat:AddSlider("fov", {Title = "FOV Radius", Min = 0, Max = 800, Default = 120}, function(v)
-    getgenv().FOV = v
-end)
-
-spawn(function()
-    while task.wait() do
-        if getgenv().SilentAim then
-            local closest = nil
-            local dist = getgenv().FOV or 120
-            for _, plr in pairs(game.Players:GetPlayers()) do
-                if plr ~= game.Players.LocalPlayer and plr.Character and plr.Character:FindFirstChild("Head") then
-                    local pos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(plr.Character.Head.Position)
-                    local center = Vector2.new(workspace.CurrentCamera.ViewportSize.X/2, workspace.CurrentCamera.ViewportSize.Y/2)
-                    local mag = (Vector2.new(pos.X, pos.Y) - center).Magnitude
-                    if mag < dist and onScreen then
-                        dist = mag
-                        closest = plr.Character.Head
-                    end
-                end
-            end
-            if closest then
-                mousemoverel((closest.Position - workspace.CurrentCamera.CFrame.Position).Unit.X * 5, (closest.Position - workspace.CurrentCamera.CFrame.Position).Unit.Y * 5)
-            end
-        end
-    end
-end)
+if getgenv().Aimbot_Enabled then
+    local Aimbot = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V3/main/src/Aimbot.lua"))()
+    Aimbot.Settings.Enabled = true
+    
+    -- FOV
+    CombatTab:AddSlider("aim_fov", {Title = "FOV Radius", Min = 0, Max = 720, Default = 120}, function(v)
+        Aimbot.FOVSettings.Radius = v
+    end)
+    
+    -- Smoothing
+    CombatTab:AddSlider("aim_smooth", {Title = "Smoothing", Min = 0, Max = 1, Default = 0.1}, function(v)
+        Aimbot.Settings.Sensitivity = v
+    end)
+    
+    -- Resolver
+    CombatTab:AddToggle("aim_resolver", {Title = "Resolver", Default = true}, function(v)
+        Aimbot.Settings.Resolver = v
+    end)
+    
+    -- Silent Aim
+    CombatTab:AddToggle("aim_silent", {Title = "Silent Aim", Default = true}, function(v)
+        Aimbot.Settings.SilentAim = v
+    end)
+    
+    -- Lock Part
+    CombatTab:AddDropdown("aim_part", {Title = "Lock Part", Options = {"Head", "HumanoidRootPart", "UpperTorso"}}, "Head", function(v)
+        Aimbot.Settings.LockPart = v
+    end)
+    
+    -- Hit Chance
+    CombatTab:AddSlider("aim_hit", {Title = "Hit Chance", Min = 0, Max = 100, Default = 100}, function(v)
+        Aimbot.Settings.HitChance = v
+    end)
+end
