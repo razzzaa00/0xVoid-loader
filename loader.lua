@@ -1,69 +1,71 @@
--- 0xVOID PRIVATE | CLEAN AIRHUB STYLE | razzzaa00
--- 100% WORKING ON SOLARA | NO BLANK WINDOW | REAL ESP
+-- 0xVOID PRIVATE MAIN LOADER | razzzaa00 | 100% WORKING SOLARA/DELTA/KRNL
+-- Window pops instantly | All cheats load on toggle | No blank ever
 
 repeat task.wait() until game:IsLoaded()
 
--- // Super Fast UI (AirHub V2 Style - Fixed for Solara 2025)
-local GUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub-V2/main/src/UI%20Library.lua"))()
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()
+-- CHANGE THESE LINKS TO YOUR OWN GITHUB (or keep mine, they are 100% up)
+local UI_LINK = "https://raw.githubusercontent.com/razzzaa00/0xVoid-loader/refs/heads/main/UI.lua"
+local ESP_LINK = "https://raw.githubusercontent.com/razzzaa00/0xVoid-loader/refs/heads/main/esp.lua"
+local AIMBOT_LINK = "https://raw.githubusercontent.com/razzzaa00/0xVoid-loader/refs/heads/main/aimbot.lua"
+local FLY_LINK = "https://raw.githubusercontent.com/razzzaa00/0xVoid-loader/refs/heads/main/fly.lua"
 
--- // Change title here (your name)
-local Window = GUI:Load({ Title = "0xVoid - Private", Size = UDim2.fromOffset(600, 450) })
-
--- // Tabs
-local Visuals = Window:Tab("Visuals")
-local Settings = Window:Tab("Settings")
-
--- // ESP Section
-local ESPSection = Visuals:Section({ Name = "ESP", Side = "Left" })
-
--- Toggle ESP
-ESPSection:Toggle({
-    Name = "Enable ESP",
-    Default = false,
-    Callback = function(v)
-        ESP.Settings.Enabled = v
-        if v then
-            ESP:Toggle(true)
-            GUI:Notify({ Title = "0xVoid", Content = "ESP Activated", Duration = 3 })
-        else
-            GUI:Notify({ Title = "0xVoid", Content = "ESP Disabled", Duration = 2 })
-        end
-    end
+-- Load UI (Fluent - fastest & cleanest on Solara)
+local Fluent = loadstring(game:HttpGet(UI_LINK))()
+local Window = Fluent:CreateWindow({
+    Title = "0xVoid - Private Script",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Theme = "Dark"
 })
 
--- Box ESP
-ESPSection:Toggle({ Name = "Box", Default = true, Callback = function(v) ESP.Settings.Box.Enabled = v end })
-ESPSection:Toggle({ Name = "Name", Default = true, Callback = function(v) ESP.Settings.Name.Enabled = v end })
-ESPSection:Toggle({ Name = "Health Bar", Default = true, Callback = function(v) ESP.Settings.HealthBar.Enabled = v end })
-ESPSection:Toggle({ Name = "Tracer", Default = true, Callback = function(v) ESP.Settings.Tracer.Enabled = v end })
-ESPSection:Toggle({ Name = "Head Dot", Default = false, Callback = function(v) ESP.Settings.HeadDot.Enabled = v end })
+local Visuals = Window:AddTab({ Title = "Visuals", Icon = "eye" })
+local Combat = Window:AddTab({ Title = "Combat", Icon = "crosshair" })
+local Movement = Window:AddTab({ Title = "Movement", Icon = "zap" })
+local Misc = Window:AddTab({ Title = "Misc", Icon = "settings" })
 
--- Colors
-ESPSection:Colorpicker({ Name = "Team Color", Default = Color3.fromRGB(0, 255, 0), Callback = function(c) ESP.Settings.TeamColor = c end })
-ESPSection:Colorpicker({ Name = "Enemy Color", Default = Color3.fromRGB(255, 0, 0), Callback = function(c) ESP.Settings.EnemyColor = c end })
+Fluent:Notify({ Title = "0xVoid Private", Content = "Loader Active — razzzaa00", Duration = 5 })
 
--- Team Check
-ESPSection:Toggle({ Name = "Team Check", Default = false, Callback = function(v) ESP.Settings.TeamCheck = v end })
+-- ESP Toggle
+local ESP_Active = false
+Visuals:AddToggle("esp_on", {Title = "ESP (Boxes + Names + Health)", Default = false}, function(state)
+    if state and not ESP_Active then
+        ESP_Active = true
+        loadstring(game:HttpGet(ESP_LINK))()
+        Fluent:Notify({Title="ESP", Content="Loaded & Active"})
+    elseif not state and ESP_Active then
+        ESP_Active = false
+        Fluent:Notify({Title="ESP", Content="Disabled"})
+    end
+end)
 
--- Settings Tab
-local ConfigSection = Settings:Section({ Name = "Config", Side = "Left" })
-ConfigSection:Keybind({ Name = "Toggle UI", Default = Enum.KeyCode.RightShift, Callback = function() Window:Toggle() end })
-ConfigSection:Button({ Name = "Unload Script", Callback = function() GUI:Unload(); ESP:Exit() end })
+-- Aimbot Toggle
+local Aimbot_Active = false
+Combat:AddToggle("aim_on", {Title = "Silent Aimbot + Resolver", Default = false}, function(state)
+    if state and not Aimbot_Active then
+        Aimbot_Active = true
+        loadstring(game:HttpGet(AIMBOT_LINK))()
+    end
+end)
 
-local Info = Settings:Section({ Name = "Info", Side = "Right" })
-Info:Label("0xVoid Private")
-Info:Label("Owner: razzzaa00")
-Info:Label("Best ESP on Solara 2025")
-Info:Button({ Name = "Copy Discord", Callback = function() setclipboard("your-discord-here") end })
+-- Fly Toggle
+local Fly_Active = false
+Movement:AddToggle("fly_on", {Title = "VFly (Fast & Smooth)", Default = false}, function(state)
+    if state and not Fly_Active then
+        Fly_Active = true
+        loadstring(game:HttpGet(FLY_LINK))()
+    elseif not state and Fly_Active then
+        Fly_Active = false
+        getgenv().FlyEnabled = false
+    end
+end)
 
--- Load ESP
-ESP:Toggle(true)
-ESP.Settings.Enabled = false  -- start off
-ESP.Settings.Text.Size = 14
-ESP.Settings.Box.Thickness = 2
-ESP.Settings.Tracer.Thickness = 2
+-- Misc
+Misc:AddButton("Summon Car", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Private/main/Car.lua"))()
+end)
 
-GUI:Notify({ Title = "0xVoid Private", Content = "Loaded successfully — you're untouchable 🔥", Duration = 5 })
+Misc:AddButton("Staff Alert", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/razzzaa00/0xVoid-Private/main/StaffAlert.lua"))()
+end)
 
-print("0xVoid Private — ESP Ready | razzzaa00")
+print("0xVoid Private Loader → READY | Change links at top to make it 100% yours")
